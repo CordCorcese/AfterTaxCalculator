@@ -74,8 +74,29 @@ int CalculateBCTax(int pretax){
         BCTax += (252752-181232) * 0.168;
         BCTax += (pretax-252752) * 0.205;
     }
-    std::cout<<"Your total federal BC tax burden is: " << BCTax <<std::endl;
+    std::cout<<"Your total BC tax burden is: " << BCTax <<std::endl;
     return BCTax;
+}
+
+int CalculateEICPP(int pretax){
+    int EIPay = 0;
+    int CPPPay = 0;
+    int totalEICPP = 0;
+    if (pretax <= 65700){
+        EIPay =  pretax * 0.0164; //using 2025 numbers
+    }else{
+        EIPay = 65700*0.0164; 
+    }
+    if(pretax <= 3500){
+        CPPPay = 0; 
+    }else if (pretax <= 71300){ //2025 numbers from https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll/payroll-deductions-contributions/canada-pension-plan-cpp/cpp-contribution-rates-maximums-exemptions.html#dt2
+        CPPPay = (pretax-3500)*0.0596; 
+    }else{
+        CPPPay = 67800*0.0595;
+    }
+    std::cout << "Your total EI contribution is " << EIPay << " And your total CPP contribution is " << std::endl;
+    totalEICPP = CPPPay + EIPay;
+    return totalEICPP; 
 }
 
 int main(){
@@ -84,11 +105,11 @@ int main(){
     std::cin >> pretax; 
     std::cout << "Your pre-tax income is " <<pretax << std::endl; 
     int totalTax = 0;
-    totalTax = CalculateFedTax(pretax) + CalculateBCTax(pretax);
+    totalTax = CalculateFedTax(pretax) + CalculateBCTax(pretax) + CalculateEICPP(pretax);
     int afterTax = pretax - totalTax; 
+    std::cout << "Your total tax burden is " << totalTax << " and your after tax income is " << afterTax << std::endl;
 
 }
 
 //todo: 
-//Incorperate EI payments
 //Incorperate the basic personal ammount tax credit 
