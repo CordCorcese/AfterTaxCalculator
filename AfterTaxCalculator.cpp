@@ -2,30 +2,43 @@
 
 
 int CalculateFedTax(int pretax){
+    int fedbasicammount = 16129;
     int FedTax;
-    if(pretax <= 55867){
-        FedTax = pretax*0.15;
-    }else if (pretax <= 111733){
-        FedTax = 55867*0.15;
-        FedTax += (pretax - 55867)*0.205;
+    int fedbracket1 = 57375; 
+    int fedbracket2 = 114750;
+    int fedbracket3 = 177882; 
+    int fedbracket4 = 253414;
+
+    //Amounts and rates are set for the 2025 tax year
+
+    if(pretax <= fedbracket1){
+        FedTax = (pretax-fedbasicammount)*0.15;
+    }else if (pretax <= fedbracket2){
+        FedTax = fedbracket1*0.15;
+        FedTax += (pretax - fedbracket1)*0.205;
     }
-    else if(pretax <= 173205){
-        FedTax = 55867*0.15;
-        FedTax += (111733 - 55867)*0.205;
-        FedTax += (pretax - 111733)*0.26; 
+    else if(pretax <= fedbracket3){
+        FedTax = fedbracket1*0.15;
+        FedTax += (fedbracket2 - fedbracket1)*0.205;
+        FedTax += (pretax - fedbracket2)*0.26; 
     }
-    else if(pretax <= 246752){
-        FedTax = 55867*0.15;
-        FedTax += (111733 - 55867)*0.205;
-        FedTax += (173205 - 111733)*0.26; 
-        FedTax += (pretax - 173205)*0.29; 
+    else if(pretax <= fedbracket4){
+        FedTax = fedbracket1*0.15;
+        FedTax += (fedbracket2 - fedbracket1)*0.205;
+        FedTax += (fedbracket3 - fedbracket2)*0.26; 
+        FedTax += (pretax - fedbracket3)*0.29; 
     }
     else{
-        FedTax = 55867*0.15;
-        FedTax += (111733 - 55867)*0.205;
-        FedTax += (173205 - 111733)*0.26; 
-        FedTax += (246752 - 173205)*0.29; 
-        FedTax += (pretax - 246752)*0.33;
+        fedbasicammount = 14538; 
+        FedTax = fedbracket1*0.15;
+        FedTax += (fedbracket2 - fedbracket1)*0.205;
+        FedTax += (fedbracket3 - fedbracket2)*0.26; 
+        FedTax += (fedbracket4 - fedbracket3)*0.29; 
+        FedTax += (pretax - fedbracket4)*0.33;
+    }
+    FedTax = FedTax - (fedbasicammount*0.15); 
+    if (FedTax < 0){
+        FedTax = 0; 
     }
     std::cout<<"Your total federal tax burden is: " << FedTax <<std::endl;
     return FedTax;
@@ -33,46 +46,68 @@ int CalculateFedTax(int pretax){
 
 int CalculateBCTax(int pretax){
     int BCTax; 
-    if(pretax <= 47937){
-        BCTax = 47937 * 0.0506;  
-    }else if (pretax <= 95875){
-        BCTax = 47937 * 0.0506; 
-        BCTax += (pretax-47937) * 0.077;
+    int BCBasicAmmount = 12932; 
+    int BCBracket1 = 49279; 
+    float BCRate1 = 0.0506; 
+    int BCBracket2 = 98560;
+    float BCRate2 = 0.077;
+    int BCBracket3 = 113158; 
+    float BCRate3 = 10.50;
+    int BCBracket4 = 137407; 
+    float BCRate4 = 0.1229; 
+    int BCBracket5 = 186306;
+    float BCRate5 = 0.147; 
+    int BCBracket6 = 259829;
+    float BCRate6 = 0.168;
+    float BCRate7 = 0.205; 
+
+    //All ammounts are for the 2025 tax year
+
+    if(pretax <= BCBracket1){
+        BCTax = pretax * BCRate1;  
     }
-    else if (pretax <= 110076){
-        BCTax = 47937 * 0.0506; 
-        BCTax += (95875-47937) * 0.077;
-        BCTax += (pretax-95875) * 0.105;
+    else if (pretax <= BCBracket2){
+        BCTax = BCBracket1 * BCRate1; 
+        BCTax += (pretax-BCBracket1) * BCRate2;
     }
-    else if (pretax <= 133664){
-        BCTax = 47937 * 0.0506; 
-        BCTax += (95875-47937) * 0.077;
-        BCTax += (110076-95875) * 0.105;
-        BCTax += (pretax-110076) * 0.1229;
+    else if (pretax <= BCBracket3){
+        BCTax = BCBracket1 * BCRate1; 
+        BCTax += (BCBracket2-BCBracket1) * BCRate2;
+        BCTax += (pretax-BCBracket2) * BCRate3;
     }
-    else if (pretax <= 181232){
-        BCTax = 47937 * 0.0506; 
-        BCTax += (95875-47937) * 0.077;
-        BCTax += (110076-95875) * 0.105;
-        BCTax += (133664-110076) * 0.1229;
-        BCTax += (pretax-133664) * 0.147;
+    else if (pretax <= BCBracket4){
+        BCTax = BCBracket1 * BCRate1; 
+        BCTax += (BCBracket2-BCBracket1) * BCRate2;
+        BCTax += (BCBracket3-BCBracket2) * BCRate3;
+        BCTax += (pretax-BCBracket3) * BCRate4;
     }
-    else if (pretax <= 252752){
-        BCTax = 47937 * 0.0506; 
-        BCTax += (95875-47937) * 0.077;
-        BCTax += (110076-95875) * 0.105;
-        BCTax += (133664-110076) * 0.1229;
-        BCTax += (181232-133664) * 0.147;
-        BCTax += (pretax-181232) * 0.168;
+    else if (pretax <= BCBracket5){
+        BCTax = BCBracket1 * BCRate1; 
+        BCTax += (BCBracket2-BCBracket1) * BCRate2;
+        BCTax += (BCBracket3-BCBracket2) * BCRate3;
+        BCTax += (BCBracket4-BCBracket3) * BCRate4;
+        BCTax += (pretax-BCBracket4) * BCRate5;
+    }
+    else if (pretax <= BCBracket6){
+        BCTax = BCBracket1 * BCRate1; 
+        BCTax += (BCBracket2-BCBracket1) * BCRate2;
+        BCTax += (BCBracket3-BCBracket2) * BCRate3;
+        BCTax += (BCBracket4-BCBracket3) * BCRate4;
+        BCTax += (BCBracket5-BCBracket4) * BCRate5;
+        BCTax += (pretax-BCBracket5) * BCRate6;
     }
     else{
-        BCTax = 47937 * 0.0506; 
-        BCTax += (95875-47937) * 0.077;
-        BCTax += (110076-95875) * 0.105;
-        BCTax += (133664-110076) * 0.1229;
-        BCTax += (181232-133664) * 0.147;
-        BCTax += (252752-181232) * 0.168;
-        BCTax += (pretax-252752) * 0.205;
+        BCTax = BCBracket1 * BCRate1; 
+        BCTax += (BCBracket2-BCBracket1) * BCRate2;
+        BCTax += (BCBracket3-BCBracket2) * BCRate3;
+        BCTax += (BCBracket4-BCBracket3) * BCRate4;
+        BCTax += (BCBracket5-BCBracket4) * BCRate5;
+        BCTax += (BCBracket6-BCBracket5) * BCRate6;
+        BCTax += (pretax-BCBracket6) * BCRate7;
+    }
+    BCTax = BCTax - BCBasicAmmount*BCRate1; 
+    if(BCTax < 0){
+        BCTax = 0;
     }
     std::cout<<"Your total BC tax burden is: " << BCTax <<std::endl;
     return BCTax;
@@ -94,7 +129,7 @@ int CalculateEICPP(int pretax){
     }else{
         CPPPay = 67800*0.0595;
     }
-    std::cout << "Your total EI contribution is " << EIPay << " And your total CPP contribution is " << std::endl;
+    std::cout << "Your total EI contribution is " << EIPay << " And your total CPP contribution is " << CPPPay << std::endl;
     totalEICPP = CPPPay + EIPay;
     return totalEICPP; 
 }
